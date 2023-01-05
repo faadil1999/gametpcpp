@@ -19,6 +19,7 @@ public:
 	virtual void bref_description()const;
 	virtual TypeCarte getCardType()const;
 	virtual void effect_card();
+	~CarteTresor();
 	
 
 private:

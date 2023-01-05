@@ -54,7 +54,7 @@ CarteVictoire::CarteVictoire(TypeVictoire typevictoire):m_typevictoire(typevicto
 		break;
 	case CarteVictoire::DUCHET:
 		m_valeur_victoire = 3;
-		m_carte_cost = 4;
+		m_carte_cost = 5;
 		break;
 	case CarteVictoire::PROVINCE:
 		m_valeur_victoire = 6;
@@ -90,7 +90,27 @@ Carte::TypeCarte CarteVictoire::getCardType()const
 	return m_type_carte;
 }
 
-void CarteVictoire::effect_card() 
+void CarteVictoire::effect_card(Joueur &joueur) 
 {
+	joueur.setVictoryVal(m_valeur_victoire );
 	cout << "Rien de particulier sur la table " << endl;
+	
 };
+
+
+void CarteVictoire::beenTrashed(Joueur &joueur)const 
+{
+	if(m_typevictoire == CarteVictoire::MALEDICTION)
+	{
+		joueur.setVictoryVal(abs(m_valeur_victoire));
+	}
+	else {
+		joueur.setVictoryVal(-m_valeur_victoire);
+	}
+
+}
+
+CarteVictoire::~CarteVictoire()
+{
+
+}

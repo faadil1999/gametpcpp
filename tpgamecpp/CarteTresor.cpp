@@ -70,7 +70,7 @@ void CarteTresor::bref_description()const {
 
 void CarteTresor::effect_card()
 {
-	cout << "tresor plus" << endl;
+	
 	PlateformeGame::ajouterPiece(m_valeur);
 };
 
@@ -79,3 +79,7 @@ Carte::TypeCarte CarteTresor::getCardType()const
 	return  m_type_carte;
 }
 
+
+CarteTresor::~CarteTresor()
+{
+}

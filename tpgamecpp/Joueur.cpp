@@ -4,6 +4,7 @@
 #include "Carte.h"
 #include "CarteVictoire.h"
 #include <algorithm>
+#include "CarteRoyaume.h"
 
 
 using namespace std;
@@ -26,6 +27,27 @@ bool Joueur:: hasTresor()const
 	return false;
 }
 
+bool Joueur::hasRoyaume()const
+{
+	for (int i = 0; i < m_hand.size(); i++) {
+		if (m_hand[i]->getCardType() == Carte::ROYAUME) {
+			return true;
+
+		}
+	}
+	return false;
+}
+bool Joueur::hasTypeCarte(Carte::TypeCarte type_cart)const
+{
+	for (int i = 0; i < m_hand.size(); i++) {
+		if (m_hand[i]->getCardType() == type_cart) {
+			return true;
+
+		}
+	}
+	return false;
+}
+
 
 bool Joueur::isTresor(int position)const
 {
@@ -36,6 +58,26 @@ bool Joueur::isTresor(int position)const
 		return false;
 	}
  	
+}
+
+bool Joueur::isRoyaume(int position)const
+{
+	if (isGoodIndice(position, m_hand)) {
+		return m_hand[position]->getCardType() == CarteTresor::ROYAUME;
+	}
+	else {
+		return false;
+	}
+}
+
+bool Joueur::isTypeRequested(int position , Carte::TypeCarte type_carte)const
+{
+	if (isGoodIndice(position, m_hand)) {
+		return m_hand[position]->getCardType() == type_carte;
+	}
+	else {
+		return false;
+	}
 }
 
 bool Joueur::isGoodIndice(int position, std::vector<Carte*>cartes)const
@@ -83,6 +125,12 @@ Joueur::Joueur(string pseudo)
 	
 }
 
+string Joueur::getPseudo()const 
+{
+	return m_pseudo;
+
+}
+
 void Joueur::presenter()const {
 	cout << "Je suis un joueur deominion et mon pseudo est "<< m_pseudo << endl;
 	cout << "Nombre de points : " << m_victory_value << endl;
@@ -107,7 +155,7 @@ void Joueur::setVictoryVal(int val)
 	m_victory_value += val;
 }
 
-void Joueur::useCarteAction(CarteRoyaume carte_royaume)
+ void Joueur::useCarteAction(CarteRoyaume carte_royaume)
 {
 
 	PlateformeGame::decrement_action();
@@ -144,9 +192,16 @@ void Joueur::showDeck()const
 
 void Joueur::showDiscard()const
 {
-	for (int i = 0; i < m_discard.size(); i++) {
-		m_discard[i]->bref_description();
+	if(m_discard.size() == 0)
+	{
+		for (int i = 0; i < m_discard.size(); i++) {
+			m_discard[i]->bref_description();
+		}
+	}else
+	{
+		cout << "discard est vide" << endl;
 	}
+	
 }
 
 void Joueur::setDiscard(vector <Carte*> cartes){
@@ -155,7 +210,9 @@ void Joueur::setDiscard(vector <Carte*> cartes){
 	cartes.clear();
 	if (m_hand.size() > 0) {
 		m_discard.insert(m_discard.begin(), m_hand.begin(), m_hand.end());
+		
 		m_hand.clear();
+	
 	}
 
 	if(m_deck.size()>=5){
@@ -167,7 +224,9 @@ void Joueur::setDiscard(vector <Carte*> cartes){
 
 	else{
 		random_shuffle(m_discard.begin(), m_discard.end());
+		random_shuffle(m_discard.begin(), m_discard.end());//pour bien melanger les cartes ;)
 		m_deck.insert(m_deck.begin(), m_discard.begin(), m_discard.end());
+		m_discard.clear();
 		m_hand.insert(m_hand.begin(), m_deck.begin(), m_deck.begin() + 5);
 		m_deck.erase(m_deck.begin(), m_deck.begin() + 5);
 	}
@@ -188,3 +247,65 @@ void Joueur::showcart_type_tresor() const {
 	}
 }
 
+void Joueur::showcart_type_royaume()const {
+
+	for (int i = 0; i < m_hand.size(); i++) {
+		if (m_hand[i]->getCardType() == Carte::TypeCarte::ROYAUME) {
+			cout << "Position " << i << " ";
+			m_hand[i]->bref_description();
+
+		}
+
+	}
+	if (hasTresor() == false) {
+		cout << "Il n'y a pas de tresor pour lachat" << endl;
+	}
+
+}
+void Joueur::showcart_type_carte(Carte::TypeCarte type_cart)const {
+
+	for (int i = 0; i < m_hand.size(); i++) {
+		if (m_hand[i]->getCardType() == type_cart) {
+			cout << "Position " << i << " ";
+			m_hand[i]->bref_description();
+
+		}
+
+	}
+	
+
+}
+
+void Joueur::pickFromDeckToHand(int nbr_carte)
+{
+	if(m_deck.size()> nbr_carte)
+	{
+		for (int i = 0; i < nbr_carte; i++) {
+			addCardOnHand(*m_deck.back());
+			m_deck.pop_back();
+		}
+	}
+	else {
+
+		random_shuffle(m_discard.begin(), m_discard.end());
+		random_shuffle(m_discard.begin(), m_discard.end());//pour bien melanger les cartes ;)
+		m_deck.insert(m_deck.begin(), m_discard.begin(), m_discard.end());
+		m_discard.clear();
+		for (int i = 0; i < nbr_carte; i++) {
+			addCardOnHand(*m_deck.back());
+			m_deck.pop_back();
+		}
+	}
+	
+
+}
+
+int Joueur::getVictory_value()const
+{
+	return m_victory_value;
+}
+
+Joueur::~Joueur() 
+{
+
+}

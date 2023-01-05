@@ -1,6 +1,7 @@
 #ifndef DEF_CARTE
 #define DEF_CARTE
 #include <string>
+
 class Carte
 {
 public:
@@ -14,6 +15,8 @@ public:
 	virtual TypeCarte getCardType() const = 0;
 	virtual void effect_card() ;
 	int getCarteCost() const;
+
+	virtual ~Carte();
 	
 protected:
 	TypeCarte m_type_carte;
