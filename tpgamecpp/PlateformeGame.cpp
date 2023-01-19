@@ -20,6 +20,7 @@ vector<Joueur*> PlateformeGame::m_list_joueur = vector<Joueur*>();
 Joueur* PlateformeGame::joueur_actuel = new Joueur("premier");
  unsigned short PlateformeGame::end_game = 0;
 vector<Carte*> PlateformeGame::table_de_jeu = vector<Carte*>();
+vector<Carte*> PlateformeGame::m_trash = vector<Carte*>();
 vector<CarteTresor*> PlateformeGame::pille_cuivre = vector<CarteTresor*>(47, new CarteTresor(CarteTresor::CUIVRE));
 vector<CarteTresor*> PlateformeGame::pille_argent = vector<CarteTresor*>(41 , new CarteTresor(CarteTresor::ARGENT));
 vector<CarteTresor*> PlateformeGame::pille_or = vector<CarteTresor*>(31, new CarteTresor(CarteTresor::OR));
@@ -28,11 +29,18 @@ vector<CarteVictoire*> PlateformeGame::pille_duchet = vector<CarteVictoire*>(9,n
 vector<CarteVictoire*> PlateformeGame::pille_province = vector<CarteVictoire*>(9,new CarteVictoire(CarteVictoire::PROVINCE));
 vector<CarteVictoire*> PlateformeGame::pille_cursed = vector<CarteVictoire*>(9,new CarteVictoire(CarteVictoire::MALEDICTION));
 vector<CarteRoyaume*> PlateformeGame::carte_royaume_1 = 
-vector<CarteRoyaume*>(5,new CarteRoyaume( 10,"Village" , CarteRoyaume::TypeRoyaume::ACTION_ACTION , func_village));
+vector<CarteRoyaume*>(11,new CarteRoyaume( 3,"Village" , CarteRoyaume::TypeRoyaume::ACTION_ACTION , func_village));
 vector<CarteRoyaume*> PlateformeGame::carte_royaume_2 =
-vector<CarteRoyaume*>(5, new CarteRoyaume(10, "Marchee", CarteRoyaume::TypeRoyaume::ACTION_ACTION, func_village));
+vector<CarteRoyaume*>(11, new CarteRoyaume(5, "Marchee", CarteRoyaume::TypeRoyaume::ACTION_ACTION, func_village));
 vector<CarteRoyaume*> PlateformeGame::carte_royaume_3 =
-vector<CarteRoyaume*>(5, new CarteRoyaume(10, "Bucheron", CarteRoyaume::TypeRoyaume::ACTION_ACTION, func_village));
+vector<CarteRoyaume*>(11, new CarteRoyaume(3, "Bucheron", CarteRoyaume::TypeRoyaume::ACTION_ACTION, func_village));
+vector<CarteRoyaume*> PlateformeGame::carte_royaume_4 =
+vector<CarteRoyaume*>(11, new CarteRoyaume(3, "Atelier", CarteRoyaume::TypeRoyaume::ACTION_ACTION, func_village));
+vector<CarteRoyaume*> PlateformeGame::carte_royaume_5 =
+vector<CarteRoyaume*>(11, new CarteRoyaume(4, "Forgeron", CarteRoyaume::TypeRoyaume::ACTION_ACTION, func_village));
+vector<CarteRoyaume*> PlateformeGame::carte_royaume_6 =
+vector<CarteRoyaume*>(11, new CarteRoyaume(5, "Festival", CarteRoyaume::TypeRoyaume::ACTION_ACTION, func_village));
+
 
 
 PlateformeGame::PlateformeGame() {
@@ -135,44 +143,45 @@ void PlateformeGame::decrement_achat() {
 	}
 
 }
-void PlateformeGame::PhaseAchat(Joueur &joueur)
+void PlateformeGame::PhaseAchat()
 {
-
 	int choix = 1;
-	cout << "Joueur :" <<joueur.getPseudo() << endl;
+do{
+	
+	cout << "Joueur :" << joueur_actuel->getPseudo() << endl;
 	cout << "Phase Achat" << endl;
 	showCurrentStatus();
 	do {
 		cout << "Faites le choix de la carte que vous voulez poser sur la table \n";
-		
-		joueur.showcart_type_tresor();
-		if(joueur.hasTresor() ) {
-			cout << "Entrez 90 pour passer cette etape \n";
+
+		joueur_actuel->showcart_type_tresor();
+		if (joueur_actuel->hasTresor()) {
+			cout << "Entrez 91 pour passer cette etape \n";
 			cin >> choix;
-			if(choix <90 ) {
-				if (joueur.isTresor(choix)) 
+			if (choix < 90) {
+				if (joueur_actuel->isTresor(choix))
 				{
 
-					joueur.addOntable(choix);
+					joueur_actuel->addOntable(choix);
 					showCurrentStatus();
 				}
 				else {
 					cout << "Cette carte nest pas une carte tresor \n";
 				}
 			}
-			else if (choix >90) {
-				cout << "Hors sujet mais on passera a letape suivante \n";
+			else if (choix > 90) {
+				cout << "On passera a letape suivante \n";
 				break;
 			}
-			else{
-				cout << "On passe a letape suivante \n";
+			else {
+				cout << "Choisissez bien !! \n";
 			}
 		}
-	
-	
-	} while (joueur.hasTresor());
+
+
+	} while (joueur_actuel->hasTresor() );
 	choix = 0;
-	
+
 	cout << "Quel type de carte voulez vous acheter\n";
 	cout << "1-) Pour les cartes de type tresor \n";
 	cout << "2-) Pour les cartes de type royaume \n";
@@ -181,16 +190,16 @@ void PlateformeGame::PhaseAchat(Joueur &joueur)
 	switch (choix)
 	{
 	case 1:
-		
-		PlateformeGame::achatCarteTresor(joueur);
+
+		PlateformeGame::achatCarteTresor();
 		break;
 
 	case 2:
-		PlateformeGame::achatCarteRoyaume(joueur);
+		PlateformeGame::achatCarteRoyaume();
 		break;
 
 	case 3:
-		PlateformeGame::achatCarteVictoire(joueur);
+		PlateformeGame::achatCarteVictoire();
 		break;
 
 	case 0:
@@ -201,21 +210,26 @@ void PlateformeGame::PhaseAchat(Joueur &joueur)
 		cout << "Mauvais numero de choix \n";
 		break;
 	}
+	decrement_achat();
+
+} while ( nbr_achat!=0 && (choix != 90 && choix < 90));
+	
+
 
 
 }
 
-void PlateformeGame::putonHand(Joueur &joueur , Carte &carte)
+void PlateformeGame::putonHand( Carte &carte)
 {
 	if (carte.getCardType() == Carte::VICTOIRE) {
 		
 		CarteVictoire& carte_v = dynamic_cast<CarteVictoire&>(carte);
 		
-		carte_v.effect_card(joueur);
+		carte_v.effect_card(*joueur_actuel);
 	
 	}
 	else {
-		joueur.addCardOnHand(carte);
+		joueur_actuel->addCardOnHand(carte);
 	}
 	
 }
@@ -232,7 +246,7 @@ void PlateformeGame::setTableJeu(Carte &carte)
 
 }
 
-void PlateformeGame:: achatCarteTresor(Joueur& joueur)
+void PlateformeGame:: achatCarteTresor()
 {
 	int choix = 0;
 	
@@ -262,9 +276,12 @@ void PlateformeGame:: achatCarteTresor(Joueur& joueur)
 	switch (choix)
 	{
 	case 1:
-		putonHand(joueur, *pille_cuivre.back());
+		putonHand( *pille_cuivre.back() );
 
 		pille_cuivre.pop_back();
+		if (pille_cuivre.size() == 1) {
+			incrementEndGame();
+		}
 		cout << "Vous avez acheter une carte cuivre" << endl;
 		break;
 
@@ -275,8 +292,11 @@ void PlateformeGame:: achatCarteTresor(Joueur& joueur)
 				cout << "Petit malin !! cette pille de carte est vide" << endl;
 			}
 			else {
-				putonHand(joueur, *pille_argent.back());
+				putonHand(*pille_argent.back());
 				pille_argent.pop_back();
+				if (pille_argent.size() == 1) {
+					incrementEndGame();
+				}
 				cout << "Vous avez acheter une carte argent" << endl;
 			}
 		
@@ -292,8 +312,12 @@ void PlateformeGame:: achatCarteTresor(Joueur& joueur)
 				cout << "Petit malin !! cette pille de carte est vide" << endl;
 			}
 			else {
-				putonHand(joueur, *pille_or.back());
+				putonHand(*pille_or.back());
 				pille_or.pop_back();
+
+				if (pille_or.size() == 1) {
+					incrementEndGame();
+				}
 				cout << "Vous avez acheter une carte or" << endl;
 			}
 			
@@ -307,7 +331,7 @@ void PlateformeGame:: achatCarteTresor(Joueur& joueur)
 		cout << "Vous avez passez cette etape" << endl;
 		break;
 	case 0:
-		PlateformeGame::PhaseAchat(joueur);
+		PlateformeGame::PhaseAchat();
 		break;
 	default:
 		break;
@@ -316,33 +340,50 @@ void PlateformeGame:: achatCarteTresor(Joueur& joueur)
 	
 }
 
-void PlateformeGame:: achatCarteRoyaume(Joueur &joueur)
+void PlateformeGame:: achatCarteRoyaume()
 {
 	int choix = 0;
 	cout << "Faites un choix" << endl;
-	cout << "Pour retourner en arriere" << endl;
-	cout << carte_royaume_1.back()->getCarteCost() << endl;
-	cout << piece_posee << endl;
 	
-	if (3 > 0 )
+
+	
+	if (piece_posee >= carte_royaume_1.back()->getCarteCost() )
 	{
 		cout << messageMenuForCardIfEmptyOrNot(carte_royaume_1.size(), *carte_royaume_1.back(), "1-) Pour acheter la carte " + carte_royaume_1.back()->getName())<<endl;
 	}
 
+	if (piece_posee >= carte_royaume_2.back()->getCarteCost())
+	{
+		cout << messageMenuForCardIfEmptyOrNot(carte_royaume_2.size(), *carte_royaume_2.back(), "2-) Pour acheter la carte " + carte_royaume_2.back()->getName()) << endl;
+	}
+
+	if (piece_posee >= carte_royaume_3.back()->getCarteCost())
+	{
+		cout << messageMenuForCardIfEmptyOrNot(carte_royaume_3.size(), *carte_royaume_3.back(), "3-) Pour acheter la carte " + carte_royaume_3.back()->getName()) << endl;
+	}
+	cout << "0-)Retour" << endl;
 
 	cin >> choix;
 	
-	messageMenuForCardIfEmptyOrNot(carte_royaume_2.size(), *carte_royaume_2.back(), "2-) Pour acheter la carte " + carte_royaume_2.back()->getName() );
-	messageMenuForCardIfEmptyOrNot(carte_royaume_3.size(), *carte_royaume_3.back(), "3-) Pour acheter la carte " + carte_royaume_3.back()->getName());
 	switch (choix)
 	{
 	case 1:
-		putonHand(joueur, *carte_royaume_1.back());
+		putonHand( *carte_royaume_1.back());
 			carte_royaume_1.pop_back();
 			cout << "carte " + carte_royaume_1.back()->getName() + " achetee" << endl;
 		break;
+	case 2:
+		putonHand(*carte_royaume_2.back());
+		carte_royaume_2.pop_back();
+		cout << "carte " + carte_royaume_2.back()->getName() + " achetee" << endl;
+		break;
+	case 3:
+		putonHand(*carte_royaume_3.back());
+		carte_royaume_3.pop_back();
+		cout << "carte " + carte_royaume_3.back()->getName() + " achetee" << endl;
+		break;
 	case 0:
-		PlateformeGame::PhaseAchat(joueur);
+		PlateformeGame::PhaseAchat();
 		break;
 	default:
 		break;
@@ -360,7 +401,7 @@ void PlateformeGame::showCurrentStatus()
 
 
 
-void PlateformeGame::achatCarteVictoire(Joueur &joueur)
+void PlateformeGame::achatCarteVictoire()
 {
 	int choix = 0;
 
@@ -400,7 +441,7 @@ void PlateformeGame::achatCarteVictoire(Joueur &joueur)
 			cout << "Petit malin !! cette pille de carte est vide" << endl;
 		}
 		else {
-			putonHand(joueur, *pille_cursed.back());
+			putonHand( *pille_cursed.back());
 
 			pille_cursed.pop_back();
 			cout << "Vous avez acheter une carte malediction" << endl;
@@ -415,7 +456,7 @@ void PlateformeGame::achatCarteVictoire(Joueur &joueur)
 				cout << "Petit malin !! cette pille de carte est vide" << endl;
 			}
 			else {
-				putonHand(joueur, *pille_domaine.back());
+				putonHand(*pille_domaine.back());
 				pille_domaine.pop_back();
 				cout << "Vous avez acheter une carte domaine" << endl;
 			}
@@ -433,7 +474,7 @@ void PlateformeGame::achatCarteVictoire(Joueur &joueur)
 				cout << "Petit malin !! cette pille de carte est vide" << endl;
 			}
 			else{
-				putonHand(joueur, *pille_duchet.back());
+				putonHand( *pille_duchet.back() );
 				pille_duchet.pop_back();
 				cout << "Vous avez acheter une carte duchet" << endl;
 			}
@@ -452,7 +493,7 @@ void PlateformeGame::achatCarteVictoire(Joueur &joueur)
 			else {
 
 
-				putonHand(joueur, *pille_province.back());
+				putonHand(*pille_province.back());
 				pille_province.pop_back();
 				cout << "Vous avez acheter une carte province" << endl;
 			}
@@ -464,7 +505,7 @@ void PlateformeGame::achatCarteVictoire(Joueur &joueur)
 
 		break;
 	case 0:
-		PlateformeGame::PhaseAchat(joueur);
+		PlateformeGame::PhaseAchat();
 		break;
 	default:
 		break;
@@ -476,6 +517,15 @@ void func_vi(Joueur j, vector<Joueur*>list_joueur)
 {
 	j.pickFromDeckToHand(1);
 	PlateformeGame::setAction(2);
+
+}
+
+void func_festival(Joueur j , vector<Joueur*>list_joueur)
+{
+
+	PlateformeGame::setAction(2);
+	PlateformeGame::increment_achat();
+	PlateformeGame::ajouterPiece(2);
 
 }
 
@@ -491,6 +541,27 @@ void func_marche(Joueur j , vector<Joueur*>list_joueur)
 	PlateformeGame::increment_action();
 	PlateformeGame::increment_achat();
 	PlateformeGame::ajouterPiece(1);
+}
+void func_attelier(Joueur j , vector<Joueur*>list_joueur)
+{
+	
+	PlateformeGame::show_from_piece_value(4);
+
+}
+
+void func_vassal(Joueur j , vector<Joueur*>list_joueur)
+{
+	j.from_top_deck_to_discard();
+	PlateformeGame::ajouterPiece(2);
+
+}
+
+void func_forge(Joueur j , vector<Joueur*>list_joueur)
+{
+
+	j.pickFromDeckToHand(3);
+	cout << "3 cartes ajoutees dans la main" << endl;
+
 }
 
 
@@ -518,21 +589,24 @@ void PlateformeGame::StartGame()
 
 
 	
-	 for (int i = 0; i < 10; i++)
+	 for (int i = 0; i < 11; i++)
 	{
 	
 		carte_royaume_1[i]->attribute_fun(func_vi , *joueur_actuel);
 		carte_royaume_2[i]->attribute_fun(func_marche , *joueur_actuel);
 		carte_royaume_3[i]->attribute_fun(func_buch , *joueur_actuel);
+		carte_royaume_4[i]->attribute_fun(func_attelier, *joueur_actuel);
+		carte_royaume_5[i]->attribute_fun(func_forge, *joueur_actuel);
+		carte_royaume_6[i]->attribute_fun(func_festival, *joueur_actuel);
 
 	}
 	 do {
 		 for(Joueur *joueur : m_list_joueur)
 		 {
 			 joueur_actuel = joueur;
-			 PhaseAction(*joueur_actuel);
-			 PhaseAchat(*joueur_actuel);
-			 PhaseAjustement(*joueur_actuel);
+			 PhaseAction();
+			 PhaseAchat();
+			 PhaseAjustement();
 		 }
 	 } while (gameIsEnd() == false);
 
@@ -540,6 +614,45 @@ void PlateformeGame::StartGame()
 	
 }
 
+
+void PlateformeGame::deffausser_carte(Joueur& joueur, int position)
+{
+	joueur.from_deck_to_place(position);
+
+};
+
+void PlateformeGame::deffausser_top_carte_action(Joueur& joueur)
+{
+	joueur.from_top_deck_to_trash();
+}
+
+void PlateformeGame::add_to_player_discard(Carte& carte)
+{
+	if (carte.getCardType() == Carte::ROYAUME)
+	{
+		cout << "Il s'agit dune carte royaume" << endl;
+		cout << "On execute donc la carte " << endl;
+		CarteRoyaume& carte_r = dynamic_cast<CarteRoyaume&>(carte);
+		carte_r.execute_action(*joueur_actuel, m_list_joueur);
+	}
+	else
+	{
+		cout << "Carte envoyee dans le discard du joueur actuel" << endl;
+	}
+}
+
+void PlateformeGame::add_to_trash(Carte& carte)
+{
+	if (carte.getCardType() == Carte::ROYAUME)
+	{
+		cout << "Il s'agit dune carte royaume" << endl;
+		cout << "On execute donc la carte " << endl;
+		CarteRoyaume& carte_r = dynamic_cast<CarteRoyaume&>(carte);
+		carte_r.execute_action(*joueur_actuel, m_list_joueur);
+	}
+	m_trash.push_back(&carte);
+	cout << "carte deffausser" << endl;
+}
 std::string PlateformeGame::messageMenuForCardIfEmptyOrNot(int size_pile, Carte& carte, string messageMenu)
 {
 	if(size_pile>1)
@@ -573,21 +686,21 @@ bool PlateformeGame::gameIsEnd()
 }
 
 
-void PlateformeGame::PhaseAjustement(Joueur &joueur)
+void PlateformeGame::PhaseAjustement()
 {
-	joueur.presenter();
+	joueur_actuel->presenter();
 
-	joueur.setDiscard(table_de_jeu);
+	joueur_actuel->setDiscard(table_de_jeu);
 	
 
 	initialisationStatus();
 
 }
 
-void PlateformeGame::PhaseAction(Joueur& joueur)
+void PlateformeGame::PhaseAction()
 {
 	int choix = 1;
-	cout << "Joueur :" << joueur.getPseudo() << endl;
+	cout << "Joueur :" << joueur_actuel->getPseudo() << endl;
 	cout << "Phase Action" << endl;
 	showCurrentStatus();
 	
@@ -595,15 +708,15 @@ void PlateformeGame::PhaseAction(Joueur& joueur)
 	do {
 		cout << "Faites le choix de la carte que vous voulez actionner et poser sur la table \n";
 
-		joueur.showcart_type_royaume();
-		if (joueur.hasRoyaume()) {
+		joueur_actuel->showcart_type_royaume();
+		if (joueur_actuel->hasRoyaume()) {
 			cout << "Entrez 90 pour passer cette etape \n";
 			cin >> choix;
 			if (choix < 90) {
-				if (joueur.isRoyaume(choix))
+				if (joueur_actuel->isRoyaume(choix))
 				{
 
-					joueur.addOntable(choix);
+					joueur_actuel->addOntable(choix);
 					showCurrentStatus();
 				}
 				else {
@@ -622,7 +735,7 @@ void PlateformeGame::PhaseAction(Joueur& joueur)
 		}
 
 
-	} while (joueur.hasRoyaume() && nbr_action !=0);
+	} while (joueur_actuel->hasRoyaume() && nbr_action !=0);
 
 }
 
@@ -668,9 +781,167 @@ PlateformeGame::~PlateformeGame()
 	{
 		delete m_list_joueur[i];
 	}
-
+	
 	
 
+}
+
+void PlateformeGame::show_from_piece_value(int piece_val)
+{
+	vector<Carte*>list_cartd = vector<Carte*>();
+	list_cartd.push_back(pille_cuivre.back());
+	list_cartd.push_back(pille_argent.back());
+	list_cartd.push_back(pille_or.back());
+	list_cartd.push_back(pille_cursed.back());
+	list_cartd.push_back(pille_domaine.back());
+	list_cartd.push_back(pille_duchet.back());
+	list_cartd.push_back(pille_province.back());
+	list_cartd.push_back(carte_royaume_1.back());
+	list_cartd.push_back(carte_royaume_2.back());
+	list_cartd.push_back(carte_royaume_3.back());
+
+	for(int i = 0 ; i < list_cartd.size() ; i++)
+	{
+		if(	list_cartd[i]->getCarteCost() <= piece_val )
+		{
+			cout << i << " ) ";
+			list_cartd[i]->bref_description();
+		}
+	}
+	
+	cout << "Choisissez une carte " << endl;
+	int choix = 0;
+	switch (choix)
+	{
+		
+	case 0:
+		if (verif_card_and_piece(piece_val, pille_cuivre.back()->getCarteCost() )) 
+		{
+
+			joueur_actuel->addCardOnHand(*pille_cuivre.back());
+			pille_cuivre.pop_back();
+		}
+	
+		break;
+	case 1:
+		if (verif_card_and_piece(piece_val, pille_argent.back()->getCarteCost()))
+		{
+
+			joueur_actuel->addCardOnHand(*pille_argent.back());
+			pille_argent.pop_back();
+		}
+		break;
+	case 2:
+		if (verif_card_and_piece(piece_val, pille_or.back()->getCarteCost()))
+		{
+
+			joueur_actuel->addCardOnHand(*pille_or.back());
+			pille_or.pop_back();
+		}
+		break;
+	case 3:
+		if (verif_card_and_piece(piece_val, pille_cursed.back()->getCarteCost()))
+		{
+
+			joueur_actuel->addCardOnHand(*pille_cursed.back());
+			pille_cursed.pop_back();
+		}
+		break;
+	case 4:
+		if (verif_card_and_piece(piece_val, pille_domaine.back()->getCarteCost()))
+		{
+
+			joueur_actuel->addCardOnHand(*pille_domaine.back());
+			pille_domaine.pop_back();
+		}
+		else {
+			cout << "Petit malin" << endl;
+		}
+
+		break;
+	case 5:
+		if (verif_card_and_piece(piece_val, pille_duchet.back()->getCarteCost()))
+		{
+
+			joueur_actuel->addCardOnHand(*pille_duchet.back());
+			pille_duchet.pop_back();
+		}
+		else {
+			cout << "Petit malin" << endl;
+		}
+		break;
+	case 6:
+		if (verif_card_and_piece(piece_val, pille_province.back()->getCarteCost()))
+		{
+
+			joueur_actuel->addCardOnHand(*pille_province.back());
+			pille_province.pop_back();
+		}
+		else {
+			cout << "Petit malin" << endl;
+		}
+		break;
+	case 7:
+		if (verif_card_and_piece(piece_val, carte_royaume_1.back()->getCarteCost()))
+		{
+
+			joueur_actuel->addCardOnHand(*carte_royaume_1.back());
+			carte_royaume_1.pop_back();
+		}
+		else {
+			cout << "Petit malin" << endl;
+		}
+		break;
+	case 8:
+		if (verif_card_and_piece(piece_val, carte_royaume_2.back()->getCarteCost()))
+		{
+
+			joueur_actuel->addCardOnHand(*carte_royaume_2.back());
+			carte_royaume_2.pop_back();
+		}
+		else {
+			cout << "Petit malin" << endl;
+		}
+		break;
+	case 9:
+		if (verif_card_and_piece(piece_val, carte_royaume_3.back()->getCarteCost()))
+		{
+
+			joueur_actuel->addCardOnHand(*carte_royaume_3.back());
+			carte_royaume_3.pop_back();
+		}
+		break;
+	case 10:
+		cout << "bientot" << endl;
+		break;
+	case 11:
+		cout << "bientot" << endl;
+		break;
+	case 12:
+		cout << "Bientot" << endl;
+		break;
+
+	default:
+		cout << "Bientot" << endl;
+		break;
+	}
+
+}
+
+
+void PlateformeGame::presentationEndGame()
+{
+	for(Joueur* joueur : m_list_joueur)
+	{
+		cout << joueur->getPseudo() << " a pour victoire " << joueur->getVictory_value() << endl;
+	
+	}
+
+}
+
+bool PlateformeGame::verif_card_and_piece(int piece , int carte_val)
+{
+	return piece >=  carte_val;
 }
 
 

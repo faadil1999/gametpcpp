@@ -51,7 +51,7 @@ void CarteRoyaume::afficher()const{
 }
 
 void CarteRoyaume::bref_description()const {
-	cout << "bientot" << endl;
+	cout << "nom: " << m_nom_carte << " valeur: "<<m_carte_cost <<" " << endl;
 };
 
 Carte::TypeCarte CarteRoyaume::getCardType()const 

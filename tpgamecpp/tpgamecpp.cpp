@@ -9,9 +9,11 @@
 #include <vector>
 #include <algorithm>
 #include "PlateformeGame.h"
+#include <map>
+
 
 using namespace std;
-
+int ip = 0;
 int randomfunc(int j)
 {
     return rand() % j;
@@ -36,16 +38,55 @@ void func_vll(Joueur j, vector<Joueur*>list_joueur)
 
 }
 
+void modif (int *p ,int n_val)
+{
+    *p = n_val;
+}
 
 int main()
 {
+    int n = 25;
+    int ip = 152;
+    cout << ip << " " << ::ip << endl;
+    int &re = n;
+    int* p = &n;
+    *p = 42;
+    int poo = *p;
+    re = 45;
+    n = 88;
+    modif(&n, 15000);
+    cout << *p << endl;
+    cout << re << endl;
+    cout << poo << endl;
+    int tab[] = {2 , 5 , 6 , 8 , 9};
 
-   
+    
 
     attribution(func, *funct,6);
     func = &funct;
    // func(6);
     cout << "nbr action avant execution " << PlateformeGame::getAction() << endl;
+    vector<int>lis = vector<int>();
+    for (int i = 0; i < 5; i++) {
+
+        lis.push_back(i);
+    }
+   
+
+
+
+    for(int i = 0 ;i <lis.size() ; i ++)
+    {
+        cout << lis[i] << endl;
+    }
+    cout << "effacement" << endl;
+    lis.erase(lis.begin() + (2) ,lis.end() - (2));
+
+    for (int i = 0; i < lis.size(); i++)
+    {
+        cout << lis[i] << endl;
+    }
+
     Joueur *j3 = new Joueur("Fpo");
     Joueur *j4 = new Joueur("sadBoy");
     vector<Joueur*>listJ = vector<Joueur*>();
@@ -89,17 +130,7 @@ int main()
 
 
     PlateformeGame::StartGame();
-   do {
-       PlateformeGame::PhaseAction(j1);
-        PlateformeGame::PhaseAchat(j1);
-        PlateformeGame::PhaseAjustement(j1);
-        PlateformeGame::PhaseAction(j2);
-        PlateformeGame::PhaseAchat(j2);
-        PlateformeGame::PhaseAjustement(j2);
 
-    }while (j1.getVictory_value()<5 || j2.getVictory_value() < 5);
-  
-   
   
     cout << "new deck" << endl;
     j1.showDeck();

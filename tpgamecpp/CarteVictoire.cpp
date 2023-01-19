@@ -110,6 +110,7 @@ void CarteVictoire::beenTrashed(Joueur &joueur)const
 
 }
 
+
 CarteVictoire::~CarteVictoire()
 {
 

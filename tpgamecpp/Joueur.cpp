@@ -4,6 +4,7 @@
 #include "Carte.h"
 #include "CarteVictoire.h"
 #include <algorithm>
+#include <random>
 #include "CarteRoyaume.h"
 
 
@@ -105,7 +106,7 @@ Joueur::Joueur(string pseudo)
 	m_victory_value = 0;
 	m_discard = vector<Carte*>();
 	m_hand = vector<Carte*>();
-	m_trash = vector<Carte*>();
+	
 
 
 	for (int i = 0; i < 7; i++) {
@@ -116,7 +117,7 @@ Joueur::Joueur(string pseudo)
 		m_deck.push_back(new CarteVictoire());
 	}
 	
-	random_shuffle(m_deck.begin() , m_deck.end());
+	random_shuffle(m_deck.begin() , m_deck.end() , random_device());
 	for (int i = 0 ; i <5; i++) {
 		m_hand.push_back(m_deck[i]);
 		pop_front(m_deck);
@@ -223,8 +224,8 @@ void Joueur::setDiscard(vector <Carte*> cartes){
 	}
 
 	else{
-		random_shuffle(m_discard.begin(), m_discard.end());
-		random_shuffle(m_discard.begin(), m_discard.end());//pour bien melanger les cartes ;)
+		random_shuffle(m_discard.begin(), m_discard.end(),random_device());
+		random_shuffle(m_discard.begin(), m_discard.end() , random_device());//pour bien melanger les cartes ;)
 		m_deck.insert(m_deck.begin(), m_discard.begin(), m_discard.end());
 		m_discard.clear();
 		m_hand.insert(m_hand.begin(), m_deck.begin(), m_deck.begin() + 5);
@@ -287,8 +288,8 @@ void Joueur::pickFromDeckToHand(int nbr_carte)
 	}
 	else {
 
-		random_shuffle(m_discard.begin(), m_discard.end());
-		random_shuffle(m_discard.begin(), m_discard.end());//pour bien melanger les cartes ;)
+		random_shuffle(m_discard.begin(), m_discard.end(), random_device());
+		random_shuffle(m_discard.begin(), m_discard.end(),random_device());//pour bien melanger les cartes ;)
 		m_deck.insert(m_deck.begin(), m_discard.begin(), m_discard.end());
 		m_discard.clear();
 		for (int i = 0; i < nbr_carte; i++) {
@@ -299,6 +300,29 @@ void Joueur::pickFromDeckToHand(int nbr_carte)
 	
 
 }
+
+void Joueur:: from_deck_to_place(int position)
+{
+	PlateformeGame::add_to_trash(*m_deck[position]);
+	m_deck.erase(m_deck.begin() + position, m_deck.end() - position);
+}
+
+
+void Joueur:: from_top_deck_to_trash()
+{
+	
+	PlateformeGame::add_to_trash(*m_deck.back());
+	m_deck.pop_back();
+}
+
+void Joueur::from_top_deck_to_discard()
+{
+
+	PlateformeGame::add_to_player_discard(*m_deck.back());
+	m_discard.push_back(m_deck.back());
+	m_deck.pop_back();
+}
+
 
 int Joueur::getVictory_value()const
 {

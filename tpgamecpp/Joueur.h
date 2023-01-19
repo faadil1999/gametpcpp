@@ -30,6 +30,12 @@ public:
 	bool isTresor(int position)const;
 	bool isRoyaume(int position)const;
 
+	void from_deck_to_place(int position);
+
+	void from_top_deck_to_trash();
+
+
+	void from_top_deck_to_discard();
 	bool isTypeRequested(int position , Carte::TypeCarte type_req)const;
 
 	void pickFromDeckToHand(int nbr_carte);
@@ -43,7 +49,7 @@ public:
 
 private:
 	std::vector <Carte*> m_deck;
-	std::vector <Carte*> m_trash;
+
 	std::vector <Carte*> m_discard;
 	std::vector <Carte*> m_hand;
 	std::string m_pseudo;

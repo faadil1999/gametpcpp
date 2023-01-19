@@ -31,20 +31,34 @@ public:
 	static Joueur &getActuelJoueur();
 	static std::vector<Joueur*> getListJoueur();
 
-	static void achatCarteTresor(Joueur& joueur);
-	static void achatCarteRoyaume(Joueur& joueur);
-	static void achatCarteVictoire(Joueur &joueur);
+	static void achatCarteTresor();
+	static void achatCarteRoyaume();
+	static void achatCarteVictoire();
 	
-	static void putonHand(Joueur &joueur , Carte &carte);
+	static void putonHand(Carte &carte);
 	static void  StartGame();
-	static void  PhaseAjustement(Joueur &joueur);
-	static void PhaseAchat(Joueur & joueur);
-	static void PhaseAction(Joueur & joueur);
+	static void  PhaseAjustement();
+	static void PhaseAchat();
+	static void PhaseAction();
 
 	static void  showCurrentStatus() ;
 	static std::string messageMenuForCardIfEmptyOrNot( int size_pile , Carte &carte  ,std::string messageMenu);
 	bool static gameIsEnd();
 	void static incrementEndGame();
+	void static presentationEndGame();
+
+	void static show_from_piece_value(int val_piece);
+	
+	bool static verif_card_and_piece(int piece , int val_carte );
+
+	void static deffausser_carte(Joueur &joueur , int position);
+
+	void static deffausser_top_carte_action(Joueur &joueur);
+
+
+	void static add_to_player_discard(Carte &carte);
+
+	void static add_to_trash(Carte& carte);
 
 	~PlateformeGame();
 	
@@ -53,6 +67,7 @@ public:
 private:
 
 	static std::vector<Carte*> table_de_jeu;
+	static std::vector<Carte*> m_trash;
 	static std::vector<CarteTresor*> pille_cuivre;
 	static std::vector<CarteTresor*> pille_argent;
 	static std::vector<CarteTresor*> pille_or;
@@ -65,10 +80,10 @@ private:
 	static std::vector<CarteRoyaume*>  carte_royaume_1;
 	static std::vector<CarteRoyaume*>  carte_royaume_2;
 	static std::vector<CarteRoyaume*>  carte_royaume_3;
-/* 	static std::vector<CarteRoyaume*>  carte_royaume_4;
+	static std::vector<CarteRoyaume*>  carte_royaume_4;
 	static std::vector<CarteRoyaume*>  carte_royaume_5;
 	static std::vector<CarteRoyaume*>  carte_royaume_6;
-	static std::vector<CarteRoyaume*>  carte_royaume_7;
+/*	static std::vector<CarteRoyaume*>  carte_royaume_7;
 	static std::vector<CarteRoyaume*>  carte_royaume_8;
 	static std::vector<CarteRoyaume*>  carte_royaume_9;
 	static std::vector<CarteRoyaume*>  carte_royaume_10;
