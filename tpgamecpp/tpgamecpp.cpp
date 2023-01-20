@@ -7,7 +7,7 @@
 #include "CarteTresor.h"
 #include "CarteVictoire.h"
 #include <vector>
-#include <algorithm>
+#include <nlohmann/json.hpp>
 #include "PlateformeGame.h"
 #include <map>
 
@@ -45,48 +45,7 @@ void modif (int *p ,int n_val)
 
 int main()
 {
-    int n = 25;
-    int ip = 152;
-    cout << ip << " " << ::ip << endl;
-    int &re = n;
-    int* p = &n;
-    *p = 42;
-    int poo = *p;
-    re = 45;
-    n = 88;
-    modif(&n, 15000);
-    cout << *p << endl;
-    cout << re << endl;
-    cout << poo << endl;
-    int tab[] = {2 , 5 , 6 , 8 , 9};
-
-    
-
-    attribution(func, *funct,6);
-    func = &funct;
-   // func(6);
-    cout << "nbr action avant execution " << PlateformeGame::getAction() << endl;
-    vector<int>lis = vector<int>();
-    for (int i = 0; i < 5; i++) {
-
-        lis.push_back(i);
-    }
-   
-
-
-
-    for(int i = 0 ;i <lis.size() ; i ++)
-    {
-        cout << lis[i] << endl;
-    }
-    cout << "effacement" << endl;
-    lis.erase(lis.begin() + (2) ,lis.end() - (2));
-
-    for (int i = 0; i < lis.size(); i++)
-    {
-        cout << lis[i] << endl;
-    }
-
+  
     Joueur *j3 = new Joueur("Fpo");
     Joueur *j4 = new Joueur("sadBoy");
     vector<Joueur*>listJ = vector<Joueur*>();

@@ -10,12 +10,16 @@
 
 using namespace std;
 template<typename T>
+
 void pop_front(std::vector<T>& v)
 {
 	if (v.size() > 0) {
 		v.erase(v.begin());
 	}
 }
+
+std::random_device rd;
+std::mt19937 g(rd());
 
 bool Joueur:: hasTresor()const 
 {
@@ -102,6 +106,9 @@ vector<Carte*> Joueur::getHandCartes()const
 
 Joueur::Joueur(string pseudo)
 {
+
+	
+
 	m_pseudo = pseudo;
 	m_victory_value = 0;
 	m_discard = vector<Carte*>();
@@ -117,7 +124,7 @@ Joueur::Joueur(string pseudo)
 		m_deck.push_back(new CarteVictoire());
 	}
 	
-	random_shuffle(m_deck.begin() , m_deck.end() , random_device());
+	shuffle(m_deck.begin() , m_deck.end() , rd);
 	for (int i = 0 ; i <5; i++) {
 		m_hand.push_back(m_deck[i]);
 		pop_front(m_deck);
@@ -224,8 +231,8 @@ void Joueur::setDiscard(vector <Carte*> cartes){
 	}
 
 	else{
-		random_shuffle(m_discard.begin(), m_discard.end(),random_device());
-		random_shuffle(m_discard.begin(), m_discard.end() , random_device());//pour bien melanger les cartes ;)
+		shuffle(m_discard.begin(), m_discard.end() , rd);
+		shuffle(m_discard.begin(), m_discard.end() ,rd );//pour bien melanger les cartes ;)
 		m_deck.insert(m_deck.begin(), m_discard.begin(), m_discard.end());
 		m_discard.clear();
 		m_hand.insert(m_hand.begin(), m_deck.begin(), m_deck.begin() + 5);
@@ -249,6 +256,8 @@ void Joueur::showcart_type_tresor() const {
 }
 
 void Joueur::showcart_type_royaume()const {
+
+	
 
 	for (int i = 0; i < m_hand.size(); i++) {
 		if (m_hand[i]->getCardType() == Carte::TypeCarte::ROYAUME) {
@@ -288,8 +297,8 @@ void Joueur::pickFromDeckToHand(int nbr_carte)
 	}
 	else {
 
-		random_shuffle(m_discard.begin(), m_discard.end(), random_device());
-		random_shuffle(m_discard.begin(), m_discard.end(),random_device());//pour bien melanger les cartes ;)
+		random_shuffle(m_discard.begin(), m_discard.end() );
+		random_shuffle(m_discard.begin(), m_discard.end() );//pour bien melanger les cartes ;)
 		m_deck.insert(m_deck.begin(), m_discard.begin(), m_discard.end());
 		m_discard.clear();
 		for (int i = 0; i < nbr_carte; i++) {
