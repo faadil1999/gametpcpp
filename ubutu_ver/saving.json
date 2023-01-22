@@ -1,0 +1,233 @@
+{
+   "Game" : {
+      "PlateformeGame" : {
+         "current_player" : "Faadil",
+         "middle_cards" : {
+            "royaume_card_1" : {
+               "name" : "Village",
+               "size" : 10
+            },
+            "royaume_card_2" : {
+               "name" : "Marchee",
+               "size" : 11
+            },
+            "royaume_card_3" : {
+               "name" : "Bucheron",
+               "size" : 11
+            },
+            "royaume_card_4" : {
+               "name" : "Atelier",
+               "size" : 8
+            },
+            "royaume_card_5" : {
+               "name" : "Forgeron",
+               "size" : 9
+            },
+            "royaume_card_6" : {
+               "name" : "Festival",
+               "size" : 9
+            }
+         },
+         "side_cards" : {
+            "argent_card" : {
+               "size" : 37
+            },
+            "cuivre_card" : {
+               "size" : 46
+            },
+            "cursed_card" : {
+               "size" : 9
+            },
+            "domaine_card" : {
+               "size" : 7
+            },
+            "duchet_card" : {
+               "size" : 9
+            },
+            "gold_card" : {
+               "size" : 31
+            },
+            "province_card" : {
+               "size" : 9
+            }
+         }
+      },
+      "nbr_player" : 2
+   },
+   "Players" : {
+      "Player 1" : {
+         "deck" : {
+            "carte 0" : {
+               "name_carte" : 0
+            },
+            "carte 1" : {
+               "name_carte" : 0
+            },
+            "carte 11" : {
+               "name_carte" : 0
+            },
+            "carte 12" : {
+               "name_carte" : 0
+            },
+            "carte 13" : {
+               "name_carte" : 0
+            },
+            "carte 14" : {
+               "name_carte" : 0
+            },
+            "carte 2" : {
+               "name_carte" : 0
+            },
+            "carte 3" : {
+               "name_carte" : 0
+            },
+            "carte 4" : {
+               "name_carte" : 0
+            },
+            "carte 5" : {
+               "name_carte" : 0
+            },
+            "carte 6" : {
+               "name_carte" : 0
+            }
+         },
+         "discard" : {
+            "carte 0" : {
+               "name_carte" : "Forgeron",
+               "type_carte" : "action_action"
+            },
+            "carte 1" : {
+               "name_carte" : "Atelier",
+               "type_carte" : "action_action"
+            },
+            "carte 10" : {
+               "name_carte" : "Forgeron",
+               "type_carte" : "action_action"
+            },
+            "carte 11" : {
+               "type_carte" : "Cruivre"
+            },
+            "carte 12" : {
+               "type_carte" : "Cruivre"
+            },
+            "carte 13" : {
+               "type_carte" : "Cruivre"
+            },
+            "carte 14" : {
+               "type_carte" : "Argent"
+            },
+            "carte 2" : {
+               "type_carte" : "Domaine"
+            },
+            "carte 3" : {
+               "name_carte" : "Atelier",
+               "type_carte" : "action_action"
+            },
+            "carte 4" : {
+               "type_carte" : "Cruivre"
+            },
+            "carte 5" : {
+               "type_carte" : "Cruivre"
+            },
+            "carte 6" : {
+               "type_carte" : "Argent"
+            },
+            "carte 7" : {
+               "name_carte" : "Festival",
+               "type_carte" : "action_action"
+            },
+            "carte 8" : {
+               "name_carte" : "Festival",
+               "type_carte" : "action_action"
+            },
+            "carte 9" : {
+               "name_carte" : "Atelier",
+               "type_carte" : "action_action"
+            }
+         },
+         "hand" : {
+            "carte 0" : {
+               "type_carte" : "Cruivre"
+            },
+            "carte 1" : {
+               "type_carte" : "Cruivre"
+            },
+            "carte 2" : {
+               "type_carte" : "Domaine"
+            },
+            "carte 3" : {
+               "type_carte" : "Cruivre"
+            },
+            "carte 4" : {
+               "type_carte" : "Cruivre"
+            }
+         },
+         "pseudo" : "Faadil"
+      },
+      "Player 2" : {
+         "deck" : {
+            "carte 0" : {
+               "name_carte" : 0,
+               "type_carte" : "Cruivre"
+            },
+            "carte 1" : {
+               "name_carte" : 0,
+               "type_carte" : "Cruivre"
+            },
+            "carte 2" : {
+               "name_carte" : 0,
+               "type_carte" : "Cruivre"
+            },
+            "carte 3" : {
+               "name_carte" : 0,
+               "type_carte" : "Domaine"
+            },
+            "carte 4" : {
+               "name_carte" : 0
+            },
+            "carte 5" : {
+               "name_carte" : 0
+            }
+         },
+         "discard" : {
+            "carte 0" : {
+               "type_carte" : "Domaine"
+            },
+            "carte 1" : {
+               "type_carte" : "Domaine"
+            },
+            "carte 2" : {
+               "name_carte" : "Village",
+               "type_carte" : "action_action"
+            },
+            "carte 3" : {
+               "type_carte" : "Argent"
+            },
+            "carte 4" : {
+               "type_carte" : "Cruivre"
+            },
+            "carte 5" : {
+               "type_carte" : "Cruivre"
+            }
+         },
+         "hand" : {
+            "carte 0" : {
+               "type_carte" : "Cruivre"
+            },
+            "carte 1" : {
+               "type_carte" : "Domaine"
+            },
+            "carte 2" : {
+               "type_carte" : "Cruivre"
+            },
+            "carte 3" : {
+               "type_carte" : "Domaine"
+            },
+            "carte 4" : {
+               "type_carte" : "Argent"
+            }
+         },
+         "pseudo" : "Isma"
+      }
+   }
+}
