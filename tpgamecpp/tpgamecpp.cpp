@@ -7,7 +7,7 @@
 #include "CarteTresor.h"
 #include "CarteVictoire.h"
 #include <vector>
-#include <nlohmann/json.hpp>
+
 #include "PlateformeGame.h"
 #include <map>
 
@@ -31,7 +31,7 @@ void attribution(void(*functi)(int) , void(&funct2)(int) ,int op) {
     functi(op);
     
 }
-void func_vll(Joueur j, vector<Joueur*>list_joueur)
+void func_vll(Joueur& j, vector<Joueur*>list_joueur)
 {
 
     PlateformeGame::setAction(2);

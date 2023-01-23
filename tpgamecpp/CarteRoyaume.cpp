@@ -16,7 +16,7 @@ CarteRoyaume::CarteRoyaume()
 	
 }
 
-  CarteRoyaume::CarteRoyaume(int cost, string name_card, TypeRoyaume typecart, void(&func)(Joueur, std::vector<Joueur*>))
+  CarteRoyaume::CarteRoyaume(int cost, string name_card, TypeRoyaume typecart, void(&func)(Joueur &, std::vector<Joueur*>))
 {
 	m_nom_carte = name_card;
 	m_type_carte = Carte::ROYAUME;
@@ -28,7 +28,7 @@ CarteRoyaume::CarteRoyaume()
 
 
 
-  void CarteRoyaume::attribute_fun( void(&func)(Joueur, std::vector<Joueur*>) , Joueur j)
+  void CarteRoyaume::attribute_fun( void(&func)(Joueur &, std::vector<Joueur*>) , Joueur j)
   {
 	 
 	  effect = &func;
@@ -73,5 +73,5 @@ string CarteRoyaume::getName()const
 
 CarteRoyaume::~CarteRoyaume()
 {
-	delete &effect;
+
 }

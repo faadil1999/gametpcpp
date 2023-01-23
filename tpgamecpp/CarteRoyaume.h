@@ -19,12 +19,12 @@ public:
 	};
 
 	CarteRoyaume();
-	CarteRoyaume(int cost ,std::string name_card, TypeRoyaume typecart , void(&func)(Joueur, std::vector<Joueur*>) );
+	CarteRoyaume(int cost ,std::string name_card, TypeRoyaume typecart , void(&func)(Joueur &, std::vector<Joueur*>) );
 	virtual void afficher()const;
 	virtual void bref_description()const;
 	virtual TypeCarte getCardType()const;
 	virtual void effect_card();
-	void attribute_fun(void(&function)(Joueur, std::vector<Joueur*>),Joueur j);
+	void attribute_fun(void(&function)(Joueur &, std::vector<Joueur*>),Joueur j);
 	void execute_action(Joueur &j , std::vector<Joueur*>list_j);
 	std::string getName()const;
 	~CarteRoyaume();
@@ -37,7 +37,7 @@ private:
 	TypeRoyaume m_type_cart_royaume;
 	std::string m_nom_carte;
 	std::string m_description_carte;
-	void (* effect)(Joueur joueur, std::vector<Joueur*>joueurs );
+	void (* effect)(Joueur &joueur, std::vector<Joueur*>joueurs );
 	
 };
 

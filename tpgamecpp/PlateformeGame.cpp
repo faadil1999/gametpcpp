@@ -6,7 +6,7 @@
 
 using namespace std;
 
-void func_village(Joueur j, vector<Joueur*>list_joueur)
+void func_village(Joueur &j, vector<Joueur*>list_joueur)
 {
 
 	PlateformeGame::setAction(2);
@@ -513,14 +513,14 @@ void PlateformeGame::achatCarteVictoire()
 }
 
 
-void func_vi(Joueur j, vector<Joueur*>list_joueur)
+void func_vi(Joueur &j, vector<Joueur*>list_joueur)
 {
 	j.pickFromDeckToHand(1);
 	PlateformeGame::setAction(2);
 
 }
 
-void func_festival(Joueur j , vector<Joueur*>list_joueur)
+void func_festival(Joueur &j , vector<Joueur*>list_joueur)
 {
 
 	PlateformeGame::setAction(2);
@@ -529,34 +529,34 @@ void func_festival(Joueur j , vector<Joueur*>list_joueur)
 
 }
 
-void func_buch(Joueur j , vector<Joueur*>list_joueur)
+void func_buch(Joueur &j , vector<Joueur*>list_joueur)
 {
 	PlateformeGame::increment_achat();
 	PlateformeGame::ajouterPiece(2);
 }
 
-void func_marche(Joueur j , vector<Joueur*>list_joueur)
+void func_marche(Joueur &j , vector<Joueur*>list_joueur)
 {
 	
 	PlateformeGame::increment_action();
 	PlateformeGame::increment_achat();
 	PlateformeGame::ajouterPiece(1);
 }
-void func_attelier(Joueur j , vector<Joueur*>list_joueur)
+void func_attelier(Joueur& j , vector<Joueur*>list_joueur)
 {
 	
 	PlateformeGame::show_from_piece_value(4);
 
 }
 
-void func_vassal(Joueur j , vector<Joueur*>list_joueur)
+void func_vassal(Joueur &j , vector<Joueur*>list_joueur)
 {
 	j.from_top_deck_to_discard();
 	PlateformeGame::ajouterPiece(2);
 
 }
 
-void func_forge(Joueur j , vector<Joueur*>list_joueur)
+void func_forge(Joueur &j , vector<Joueur*>list_joueur)
 {
 
 	j.pickFromDeckToHand(3);
@@ -564,6 +564,29 @@ void func_forge(Joueur j , vector<Joueur*>list_joueur)
 
 }
 
+void func_pret_s_gage(Joueur& j , vector<Joueur*>list_joueur)
+{
+	for(Carte* c : j.getHandCartes())
+	{
+		if(c->getCardType() == Carte::TRESOR)
+		{
+			CarteTresor *ct = dynamic_cast<CarteTresor*>(c);
+			if(ct.getTypeTresor() == CarteTresor::CUIVRE)
+			{
+				PlateformeGame::add_to_trash(*c);
+				break;
+			}
+		}
+	}
+
+	PlateformeGame::ajouterPiece(3);
+}
+
+void func_laboratoire(Joueur & j , vector<Joueur*>list_joueur)
+{
+	j.pickFromDeckToHand(2);
+	PlateformeGame::increment_action();
+}
 
 void PlateformeGame::StartGame()
 {

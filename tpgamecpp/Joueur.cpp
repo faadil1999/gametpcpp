@@ -219,8 +219,11 @@ void Joueur::setDiscard(vector <Carte*> cartes){
 	if (m_hand.size() > 0) {
 		m_discard.insert(m_discard.begin(), m_hand.begin(), m_hand.end());
 		
+		for (int i = 0; i < m_hand.size(); i++) {
+			delete m_hand[i];
+		}
 		m_hand.clear();
-	
+		
 	}
 
 	if(m_deck.size()>=5){
@@ -232,7 +235,7 @@ void Joueur::setDiscard(vector <Carte*> cartes){
 
 	else{
 		shuffle(m_discard.begin(), m_discard.end() , rd);
-		shuffle(m_discard.begin(), m_discard.end() ,rd );//pour bien melanger les cartes ;)
+		
 		m_deck.insert(m_deck.begin(), m_discard.begin(), m_discard.end());
 		m_discard.clear();
 		m_hand.insert(m_hand.begin(), m_deck.begin(), m_deck.begin() + 5);
@@ -297,8 +300,8 @@ void Joueur::pickFromDeckToHand(int nbr_carte)
 	}
 	else {
 
-		random_shuffle(m_discard.begin(), m_discard.end() );
-		random_shuffle(m_discard.begin(), m_discard.end() );//pour bien melanger les cartes ;)
+		shuffle(m_discard.begin(), m_discard.end() ,rd );
+		
 		m_deck.insert(m_deck.begin(), m_discard.begin(), m_discard.end());
 		m_discard.clear();
 		for (int i = 0; i < nbr_carte; i++) {

@@ -1,2 +1,17 @@
-﻿  Joueur.cpp
-  tpgamecpp.vcxproj -> D:\Prog\Prog\C++_Reborn\tpgamecpp\x64\Debug\tpgamecpp.exe
+﻿  PlateformeGame.cpp
+D:\Prog\Prog\C++_Reborn\tpgamecpp\tpgamecpp\PlateformeGame.cpp(352,155): warning C4267: 'argument' : conversion de 'size_t' en 'int', perte possible de données
+D:\Prog\Prog\C++_Reborn\tpgamecpp\tpgamecpp\PlateformeGame.cpp(357,155): warning C4267: 'argument' : conversion de 'size_t' en 'int', perte possible de données
+D:\Prog\Prog\C++_Reborn\tpgamecpp\tpgamecpp\PlateformeGame.cpp(362,155): warning C4267: 'argument' : conversion de 'size_t' en 'int', perte possible de données
+D:\Prog\Prog\C++_Reborn\tpgamecpp\tpgamecpp\PlateformeGame.cpp(410,119): warning C4267: 'argument' : conversion de 'size_t' en 'int', perte possible de données
+D:\Prog\Prog\C++_Reborn\tpgamecpp\tpgamecpp\PlateformeGame.cpp(411,117): warning C4267: 'argument' : conversion de 'size_t' en 'int', perte possible de données
+D:\Prog\Prog\C++_Reborn\tpgamecpp\tpgamecpp\PlateformeGame.cpp(412,114): warning C4267: 'argument' : conversion de 'size_t' en 'int', perte possible de données
+D:\Prog\Prog\C++_Reborn\tpgamecpp\tpgamecpp\PlateformeGame.cpp(413,121): warning C4267: 'argument' : conversion de 'size_t' en 'int', perte possible de données
+D:\Prog\Prog\C++_Reborn\tpgamecpp\tpgamecpp\PlateformeGame.cpp(418,120): warning C4267: 'argument' : conversion de 'size_t' en 'int', perte possible de données
+D:\Prog\Prog\C++_Reborn\tpgamecpp\tpgamecpp\PlateformeGame.cpp(419,117): warning C4267: 'argument' : conversion de 'size_t' en 'int', perte possible de données
+D:\Prog\Prog\C++_Reborn\tpgamecpp\tpgamecpp\PlateformeGame.cpp(420,114): warning C4267: 'argument' : conversion de 'size_t' en 'int', perte possible de données
+D:\Prog\Prog\C++_Reborn\tpgamecpp\tpgamecpp\PlateformeGame.cpp(424,120): warning C4267: 'argument' : conversion de 'size_t' en 'int', perte possible de données
+D:\Prog\Prog\C++_Reborn\tpgamecpp\tpgamecpp\PlateformeGame.cpp(425,117): warning C4267: 'argument' : conversion de 'size_t' en 'int', perte possible de données
+D:\Prog\Prog\C++_Reborn\tpgamecpp\tpgamecpp\PlateformeGame.cpp(429,120): warning C4267: 'argument' : conversion de 'size_t' en 'int', perte possible de données
+D:\Prog\Prog\C++_Reborn\tpgamecpp\tpgamecpp\PlateformeGame.cpp(574,10): error C2228: la partie gauche de '.getTypeTresor' doit avoir un class/struct/union
+D:\Prog\Prog\C++_Reborn\tpgamecpp\tpgamecpp\PlateformeGame.cpp(574,10): message : le type est 'CarteTresor *'
+D:\Prog\Prog\C++_Reborn\tpgamecpp\tpgamecpp\PlateformeGame.cpp(574,10): message : voulez-vous utiliser '->' à la place ?
